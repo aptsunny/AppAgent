@@ -84,6 +84,7 @@ print_with_color("All interactive elements on the screen are labeled with red an
 
 step = 0
 while True:
+    import pdb;pdb.set_trace()
     step += 1
     screenshot_path = controller.get_screenshot(f"{demo_name}_{step}", raw_ss_dir)
     xml_path = controller.get_xml(f"{demo_name}_{step}", xml_dir)
@@ -109,9 +110,9 @@ while True:
             elem_list.append(elem)
     labeled_img = draw_bbox_multi(screenshot_path, os.path.join(labeled_ss_dir, f"{demo_name}_{step}.png"), elem_list,
                                   True)
-    cv2.imshow("image", labeled_img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.imshow("image", labeled_img)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
     user_input = "xxx"
     print_with_color("Choose one of the following actions you want to perform on the current screen:\ntap, text, long "
                      "press, swipe, stop", "blue")
