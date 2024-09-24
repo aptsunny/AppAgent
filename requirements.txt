@@ -1,7 +1,7 @@
-argparse
-colorama
-dashscope
-opencv-python
+# argparse
+# colorama
+# dashscope
+# opencv-python
 pyshine
 pyyaml
-requests
+# requests

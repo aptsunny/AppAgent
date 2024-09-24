@@ -27,7 +27,7 @@ def execute_adb(adb_command):
 
 
 def list_all_devices():
-    adb_command = "adb devices"
+    adb_command = "/Users/sunyue/Downloads/platform-tools/adb devices"
     device_list = []
     result = execute_adb(adb_command)
     if result != "ERROR":
@@ -95,16 +95,19 @@ class AndroidController:
         self.backslash = "\\"
 
     def get_device_size(self):
-        adb_command = f"adb -s {self.device} shell wm size"
+        adb_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} shell wm size"
         result = execute_adb(adb_command)
+        # 'Physical size: 1440x3200\nOverride size: 1080x2400'
+        result = result.split("\n")[0] # only need Physical size
+        # import pdb;pdb.set_trace()
         if result != "ERROR":
             return map(int, result.split(": ")[1].split("x"))
         return 0, 0
 
     def get_screenshot(self, prefix, save_dir):
-        cap_command = f"adb -s {self.device} shell screencap -p " \
+        cap_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} shell screencap -p " \
                       f"{os.path.join(self.screenshot_dir, prefix + '.png').replace(self.backslash, '/')}"
-        pull_command = f"adb -s {self.device} pull " \
+        pull_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} pull " \
                        f"{os.path.join(self.screenshot_dir, prefix + '.png').replace(self.backslash, '/')} " \
                        f"{os.path.join(save_dir, prefix + '.png')}"
         result = execute_adb(cap_command)
@@ -116,9 +119,9 @@ class AndroidController:
         return result
 
     def get_xml(self, prefix, save_dir):
-        dump_command = f"adb -s {self.device} shell uiautomator dump " \
+        dump_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} shell uiautomator dump " \
                        f"{os.path.join(self.xml_dir, prefix + '.xml').replace(self.backslash, '/')}"
-        pull_command = f"adb -s {self.device} pull " \
+        pull_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} pull " \
                        f"{os.path.join(self.xml_dir, prefix + '.xml').replace(self.backslash, '/')} " \
                        f"{os.path.join(save_dir, prefix + '.xml')}"
         result = execute_adb(dump_command)
@@ -127,27 +130,28 @@ class AndroidController:
             if result != "ERROR":
                 return os.path.join(save_dir, prefix + ".xml")
             return result
+        # import pdb;pdb.set_trace()
         return result
 
     def back(self):
-        adb_command = f"adb -s {self.device} shell input keyevent KEYCODE_BACK"
+        adb_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} shell input keyevent KEYCODE_BACK"
         ret = execute_adb(adb_command)
         return ret
 
     def tap(self, x, y):
-        adb_command = f"adb -s {self.device} shell input tap {x} {y}"
+        adb_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} shell input tap {x} {y}"
         ret = execute_adb(adb_command)
         return ret
 
     def text(self, input_str):
         input_str = input_str.replace(" ", "%s")
         input_str = input_str.replace("'", "")
-        adb_command = f"adb -s {self.device} shell input text {input_str}"
+        adb_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} shell input text {input_str}"
         ret = execute_adb(adb_command)
         return ret
 
     def long_press(self, x, y, duration=1000):
-        adb_command = f"adb -s {self.device} shell input swipe {x} {y} {x} {y} {duration}"
+        adb_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} shell input swipe {x} {y} {x} {y} {duration}"
         ret = execute_adb(adb_command)
         return ret
 
@@ -168,13 +172,13 @@ class AndroidController:
         else:
             return "ERROR"
         duration = 100 if quick else 400
-        adb_command = f"adb -s {self.device} shell input swipe {x} {y} {x+offset[0]} {y+offset[1]} {duration}"
+        adb_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} shell input swipe {x} {y} {x+offset[0]} {y+offset[1]} {duration}"
         ret = execute_adb(adb_command)
         return ret
 
     def swipe_precise(self, start, end, duration=400):
         start_x, start_y = start
         end_x, end_y = end
-        adb_command = f"adb -s {self.device} shell input swipe {start_x} {start_x} {end_x} {end_y} {duration}"
+        adb_command = f"/Users/sunyue/Downloads/platform-tools/adb -s {self.device} shell input swipe {start_x} {start_x} {end_x} {end_y} {duration}"
         ret = execute_adb(adb_command)
         return ret
